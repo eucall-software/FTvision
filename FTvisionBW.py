@@ -83,7 +83,7 @@ def show_webcam(camera_id=0):
             ret_val, img = cam.read()
 
         # Mirror
-        img = flip(img, 1)
+        #img = flip(img, 1)
 
         greyimg = img.sum(axis=2)
         hsvimg = matplotlib.colors.rgb_to_hsv(img/255)
@@ -108,8 +108,10 @@ def show_webcam(camera_id=0):
         colormap_img = xfel
         beam_cmap_interface = ScalarMappable(norm=matplotlib.colors.Normalize(), cmap=colormap_beam)
         viridis_beam = rgba_to_bgra(beam_cmap_interface.to_rgba(beam, bytes=True))
+        mn = imgFT.min()
+        mx = imgFT.max()
 
-        imgFT_cmap_interface = ScalarMappable(norm=matplotlib.colors.LogNorm(), cmap=colormap_img)
+        imgFT_cmap_interface = ScalarMappable(norm=matplotlib.colors.LogNorm(vmin=mn,vmax=mx), cmap=colormap_img)
 
         # Convert to RGBA (uint8 based).
         xfel_imgFT = rgba_to_bgra(imgFT_cmap_interface.to_rgba(imgFT, bytes=True))
